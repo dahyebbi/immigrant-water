@@ -837,160 +837,85 @@
   consentInput.addEventListener('change', updateSubmitState);
   updateSubmitState();
 
-  async function uploadFileToFirebase(file) {
-    const safeName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-    const storageRef = ref(storage, `waters/${safeName}`);
-    await uploadBytes(storageRef, file);
-    return await getDownloadURL(storageRef);
+async function convertHeicIfNeeded(file) {
+  const isHeic =
+    file.type === 'image/heic' ||
+    file.type === 'image/heif' ||
+    file.name.toLowerCase().endsWith('.heic') ||
+    file.name.toLowerCase().endsWith('.heif');
+
+  if (!isHeic) {
+    return file;
   }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    submitSuccess.textContent = '';
+  const heic2anyModule = await import('https://esm.sh/heic2any');
+  const heic2any = heic2anyModule.default;
 
-    if (!photoInput.files[0]) {
-      alert(copy[currentLanguage].needImage);
-      return;
-    }
-
-    if (!consentInput.checked) {
-      alert(copy[currentLanguage].needConsent);
-      return;
-    }
-
-    submitButton.disabled = true;
-    submitButton.textContent = copy[currentLanguage].uploading;
-
-    try {
-      const imageUrl = await uploadFileToFirebase(photoInput.files[0]);
-
-      await addDoc(collection(db, 'waters'), {
-        name: nameInput.value.trim() || 'Anonymous',
-        found: foundInput.value.trim() || 'Unknown',
-        guess: guessInput.value.trim() || 'Unknown',
-        consent: true,
-        imageUrl,
-        createdAt: serverTimestamp()
-      });
-
-      form.reset();
-      updateSubmitState();
-      submitSuccess.textContent = copy[currentLanguage].success;
-      await loadEntries();
-      showScreen('archive');
-    } catch (error) {
-      console.error('Upload failed:', error);
-      alert(copy[currentLanguage].uploadFailed);
-      updateSubmitState();
-    } finally {
-      submitButton.textContent = copy[currentLanguage].submit;
-    }
+  const convertedBlob = await heic2any({
+    blob: file,
+    toType: 'image/jpeg',
+    quality: 0.9
   });
 
-  function renderArchive() {
-    if (!entries.length) {
-      archiveGrid.innerHTML = `<div class="archive-empty">${copy[currentLanguage].noEntries}</div>`;
-      return;
-    }
+  const finalBlob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
 
-    archiveGrid.innerHTML = entries.map(entry => `
-      <button class="archive-card" data-entry-id="${entry.id}">
-        <div class="archive-thumb">
-          <img src="${entry.imageUrl}" alt="Water submission" />
-        </div>
-        <div class="archive-meta">
-          <p><strong>${escapeHTML(entry.name || '')}</strong></p>
-          <p>${escapeHTML(entry.found || '')}</p>
-        </div>
-      </button>
-    `).join('');
+  return new File(
+    [finalBlob],
+    file.name.replace(/\.(heic|heif)$/i, '.jpg'),
+    { type: 'image/jpeg' }
+  );
+}
 
-    archiveGrid.querySelectorAll('.archive-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const entry = entries.find(item => item.id === card.dataset.entryId);
-        if (entry) openArchiveModal(entry);
-      });
+async function uploadFileToFirebase(file) {
+  const safeName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
+  const storageRef = ref(storage, `waters/${safeName}`);
+  await uploadBytes(storageRef, file);
+  return await getDownloadURL(storageRef);
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  submitSuccess.textContent = '';
+
+  if (!photoInput.files[0]) {
+    alert(copy[currentLanguage].needImage);
+    return;
+  }
+
+  if (!consentInput.checked) {
+    alert(copy[currentLanguage].needConsent);
+    return;
+  }
+
+  submitButton.disabled = true;
+  submitButton.textContent = copy[currentLanguage].uploading;
+
+  try {
+    const convertedFile = await convertHeicIfNeeded(photoInput.files[0]);
+    const imageUrl = await uploadFileToFirebase(convertedFile);
+
+    await addDoc(collection(db, 'waters'), {
+      name: nameInput.value.trim() || 'Anonymous',
+      found: foundInput.value.trim() || 'Unknown',
+      guess: guessInput.value.trim() || 'Unknown',
+      consent: true,
+      imageUrl,
+      createdAt: serverTimestamp()
     });
+
+    form.reset();
+    updateSubmitState();
+    submitSuccess.textContent = copy[currentLanguage].success;
+    await loadEntries();
+    showScreen('archive');
+  } catch (error) {
+    console.error('Upload failed:', error);
+    alert(copy[currentLanguage].uploadFailed);
+    updateSubmitState();
+  } finally {
+    submitButton.textContent = copy[currentLanguage].submit;
   }
-
-  function openArchiveModal(entry) {
-    selectedEntry = entry;
-    modalInner.innerHTML = `
-      <div class="modal-image">
-        <img src="${entry.imageUrl}" alt="Water submission" />
-      </div>
-      <div class="modal-text">
-        <p><strong>${copy[currentLanguage].modalName}</strong> ${escapeHTML(entry.name || '')}</p>
-        <p><strong>${copy[currentLanguage].modalFound}</strong><br>${escapeHTML(entry.found || '')}</p>
-        <p><strong>${copy[currentLanguage].modalGuess}</strong><br>${escapeHTML(entry.guess || '')}</p>
-      </div>
-    `;
-    archiveModal.classList.add('active');
-  }
-
-  function closeArchiveModal() {
-    archiveModal.classList.remove('active');
-    selectedEntry = null;
-  }
-
-  closeModalButton.addEventListener('click', closeArchiveModal);
-  archiveModal.addEventListener('click', (e) => {
-    if (e.target === archiveModal) closeArchiveModal();
-  });
-
-  function renderSingle(entry) {
-    screenInner.innerHTML = `
-      <div class="single-view">
-        <div class="image-wrap">
-          <img src="${entry.imageUrl}" alt="Water submission" />
-        </div>
-        <div class="answer-box">
-          <p><strong>${copy[currentLanguage].modalName}</strong> ${escapeHTML(entry.name || '')}</p>
-          <p><strong>${copy[currentLanguage].modalFound}</strong><br>${escapeHTML(entry.found || '')}</p>
-          <p><strong>${copy[currentLanguage].modalGuess}</strong><br>${escapeHTML(entry.guess || '')}</p>
-        </div>
-      </div>
-    `;
-    screenStatus.textContent = `slide ${screenIndex + 1} / ${entries.length}`;
-  }
-
-  function renderGrid() {
-    screenInner.innerHTML = `
-      <div class="grid-view">
-        ${entries.map(entry => `
-          <div class="card">
-            <div class="card-image">
-              <img src="${entry.imageUrl}" alt="Water submission" />
-            </div>
-            <div class="card-text">
-              <p><strong>${escapeHTML(entry.name || '')}</strong></p>
-              <p>${escapeHTML(entry.found || '')}</p>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-    screenStatus.textContent = 'grid';
-  }
-
-  function renderScreen() {
-    if (!entries.length) {
-      screenInner.innerHTML = `<div class="answer-box">${copy[currentLanguage].noScreenEntries}</div>`;
-      screenStatus.textContent = 'empty';
-      return;
-    }
-
-    if (screenIndex >= entries.length) {
-      screenIndex = 0;
-    }
-
-    if (showGrid) {
-      renderGrid();
-    } else {
-      renderSingle(entries[screenIndex]);
-    }
-  }
-
+});
   function nextScreenFrame() {
     if (!entries.length) return;
 
