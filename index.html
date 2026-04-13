@@ -626,6 +626,7 @@
 
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/heic2any/dist/heic2any.min.js"></script>
   <<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
@@ -892,8 +893,11 @@ form.addEventListener('submit', async (e) => {
 
   try {
     const convertedFile = await convertHeicIfNeeded(photoInput.files[0]);
-    const imageUrl = await uploadFileToFirebase(convertedFile);
-
+const file = photoInput.files[0];
+const imageUrl = await uploadFileToFirebase(file.type.includes('heic')
+  ? new File([await heic2any({ blob: file, toType: 'image/jpeg' })], 'converted.jpg', { type: 'image/jpeg' })
+  : file
+);
     await addDoc(collection(db, 'waters'), {
       name: nameInput.value.trim() || 'Anonymous',
       found: foundInput.value.trim() || 'Unknown',
