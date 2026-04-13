@@ -1018,7 +1018,7 @@
       nextScreenFrame();
     });
 
-    const watersQuery = query(collection(db, 'waters'), orderBy('createdAt', 'desc'));
+const watersQuery = collection(db, 'waters');
 
     onSnapshot(watersQuery, (snapshot) => {
       entries = snapshot.docs.map(doc => ({
