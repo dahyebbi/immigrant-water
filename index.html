@@ -270,9 +270,11 @@
 
     .archive-grid {
       flex: 1;
-      overflow: auto;
-      column-count: 4;
-      column-gap: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
       padding-right: 0;
     }
 
@@ -284,11 +286,11 @@
       padding: 0;
       margin: 0;
       cursor: pointer;
-      break-inside: avoid;
+      line-height: 0;
     }
 
     .archive-card:hover {
-      opacity: 0.94;
+      opacity: 0.96;
     }
 
     .archive-thumb {
@@ -312,6 +314,29 @@
       opacity: 0.6;
       font-size: 15px;
       padding: 8px 0;
+    }
+
+    .archive-card.new-drop {
+      animation: waterDropIn 1.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform-origin: top center;
+    }
+
+    @keyframes waterDropIn {
+      0% {
+        transform: translateY(-90px);
+        opacity: 0;
+      }
+      55% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      72% {
+        transform: translateY(10px);
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .modal {
@@ -491,10 +516,6 @@
     }
 
     @media (max-width: 900px) {
-      .archive-grid {
-        column-count: 2;
-      }
-
       .grid-view {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -691,6 +712,7 @@
     let showGrid = false;
     let screenTimer = null;
     let isPlaying = true;
+    let latestUploadedId = null;
 
     const copy = {
       EN: {
@@ -720,7 +742,7 @@
         uploadFailed: 'Upload failed. Please try again.'
       },
       DE: {
-        homeAdd: 'Wasser hinzufügen',
+        homeAdd: 'Wasseren hinzufügen',
         homeArchive: 'Wasseren ansehen',
         bgQuestion: 'Woher kommst du?',
         back: '← Zurück',
@@ -900,6 +922,10 @@
 
         const button = document.createElement('button');
         button.className = 'archive-card';
+        if (entry.id === latestUploadedId) {
+          button.classList.add('new-drop');
+        }
+
         button.type = 'button';
         button.innerHTML = `
           <div class="archive-thumb">
@@ -909,6 +935,12 @@
         button.addEventListener('click', () => openArchiveModal(entry));
         archiveGrid.appendChild(button);
       });
+
+      if (latestUploadedId) {
+        setTimeout(() => {
+          latestUploadedId = null;
+        }, 2200);
+      }
     }
 
     function openArchiveModal(entry) {
@@ -1043,7 +1075,7 @@
         const file = await convertHeicIfNeeded(photoInput.files[0]);
         const imageUrl = await uploadFileToFirebase(file);
 
-        await addDoc(collection(db, 'waters'), {
+        const docRef = await addDoc(collection(db, 'waters'), {
           name: nameInput.value.trim() || 'Anonymous',
           found: foundInput.value.trim() || 'Unknown',
           guess: guessInput.value.trim() || 'Unknown',
@@ -1053,6 +1085,8 @@
           storedFileType: file.type,
           createdAt: serverTimestamp()
         });
+
+        latestUploadedId = docRef.id;
 
         form.reset();
         updateSubmitState();
