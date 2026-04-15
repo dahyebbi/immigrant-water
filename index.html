@@ -544,13 +544,13 @@
     }
 
     /* LETTER POPUP */
-.about-trigger {
+  .about-trigger {
   position: absolute;
   right: 20px;
   bottom: 20px;
-  min-width: 80px;
-  height: 34px;
-  padding: 0 12px;
+  min-width: 72px;
+  height: 32px;
+  padding: 0 10px;
   border: 1px solid var(--line);
   background: white;
   color: var(--text);
@@ -559,18 +559,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  gap: 6px;
+  font-size: 14px;
   line-height: 1;
 }
 
-.lett.letter-label {
+.letter-label {
   display: inline-block;
 }
 
 .letter-count {
-  position: absolute;
-  top: -6px;
-  right: -6px;
   width: 18px;
   height: 18px;
   border: 1px solid var(--line);
@@ -578,10 +576,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1;
   background: white;
   color: var(--text);
+  flex-shrink: 0;
 }
 
     .about-popup {
@@ -1103,11 +1102,15 @@ const letterCount = document.getElementById('letterCount');
       aboutPopup.setAttribute('aria-hidden', 'true');
     }
 
-    function toggleAbout() {
-      aboutPopup.classList.toggle('open');
-      const isOpen = aboutPopup.classList.contains('open');
-      aboutPopup.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-    }
+ function toggleAbout() {
+  aboutPopup.classList.toggle('open');
+  const isOpen = aboutPopup.classList.contains('open');
+  aboutPopup.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+
+  if (isOpen) {
+    letterCount.textContent = '0';
+  }
+}
 
     aboutTrigger.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1381,3 +1384,4 @@ const letterCount = document.getElementById('letterCount');
   </script>
 </body>
 </html>
+잘 수정 됐는지 확인해줘 맞으면 저장하게 
