@@ -548,8 +548,7 @@
   position: absolute;
   right: 20px;
   bottom: 20px;
-  width: auto;
-  min-width: 60px;
+  min-width: 72px;
   height: 32px;
   padding: 0 10px;
   border: 1px solid var(--line);
@@ -557,11 +556,31 @@
   color: var(--text);
   cursor: pointer;
   z-index: 6;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   font-size: 14px;
   line-height: 1;
+}
+
+.letter-label {
+  display: inline-block;
+}
+
+.letter-count {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+  background: white;
+  color: var(--text);
+  flex-shrink: 0;
 }
 
     .about-popup {
@@ -766,7 +785,10 @@
       <div class="screen-inner" id="screenInner"></div>
     </section>
 
-    <button class="about-trigger" id="aboutTrigger" aria-label="Open letter">letter</button>
+<button class="about-trigger" id="aboutTrigger" aria-label="Open letter">
+  <span class="letter-label">letter</span>
+  <span class="letter-count" id="letterCount">1</span>
+</button>
 
     <div class="about-popup" id="aboutPopup" aria-hidden="true">
       <button class="about-close" id="aboutClose" aria-label="Close letter">×</button>
@@ -834,10 +856,11 @@
     const togglePlayBtn = document.getElementById('togglePlay');
     const nextBtn = document.getElementById('nextBtn');
 
-    const aboutTrigger = document.getElementById('aboutTrigger');
-    const aboutPopup = document.getElementById('aboutPopup');
-    const aboutClose = document.getElementById('aboutClose');
-    const aboutContent = document.getElementById('aboutContent');
+const aboutTrigger = document.getElementById('aboutTrigger');
+const aboutPopup = document.getElementById('aboutPopup');
+const aboutClose = document.getElementById('aboutClose');
+const aboutContent = document.getElementById('aboutContent');
+const letterCount = document.getElementById('letterCount');
 
     let currentLanguage = 'EN';
     let selectedEntry = null;
@@ -1079,11 +1102,15 @@
       aboutPopup.setAttribute('aria-hidden', 'true');
     }
 
-    function toggleAbout() {
-      aboutPopup.classList.toggle('open');
-      const isOpen = aboutPopup.classList.contains('open');
-      aboutPopup.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-    }
+ function toggleAbout() {
+  aboutPopup.classList.toggle('open');
+  const isOpen = aboutPopup.classList.contains('open');
+  aboutPopup.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+
+  if (isOpen) {
+    letterCount.textContent = '0';
+  }
+}
 
     aboutTrigger.addEventListener('click', (e) => {
       e.stopPropagation();
