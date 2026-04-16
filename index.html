@@ -29,13 +29,13 @@
     }
 
     .app {
-  width: 100vw;
-  min-height: 100vh;
-  height: 100dvh;
-  position: relative;
-  overflow: hidden;
-  background: var(--bg);
-}
+      width: 100vw;
+      min-height: 100vh;
+      height: 100dvh;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
 
     .screen {
       position: absolute;
@@ -279,6 +279,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       position: relative;
+      padding-bottom: 8px;
     }
 
     .archive-grid {
@@ -323,6 +324,12 @@
       opacity: 0.6;
       font-size: 15px;
       padding: 8px 0;
+    }
+
+    .archive-actions {
+      display: flex;
+      justify-content: center;
+      padding: 18px 0 8px 0;
     }
 
     .archive-drop-overlay {
@@ -544,123 +551,131 @@
       opacity: 0.6;
     }
 
-    /* LETTER POPUP */
- .about-trigger {
-  position: fixed;
-  right: max(20px, env(safe-area-inset-right));
-  bottom: max(20px, env(safe-area-inset-bottom));
-  min-width: 92px;
-  height: 40px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  background: white;
-  color: var(--text);
-  cursor: pointer;
-  z-index: 999;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 15px;
-  line-height: 1;
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 0;
-}
+    /* MESSAGE POPUP */
+    .about-trigger {
+      position: fixed;
+      right: max(20px, env(safe-area-inset-right));
+      bottom: max(20px, env(safe-area-inset-bottom));
+      min-width: 92px;
+      height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--text);
+      cursor: pointer;
+      z-index: 999;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 15px;
+      line-height: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 0;
+    }
 
-.letter-label {
-  display: inline-block;
-}
+    .letter-label {
+      display: inline-block;
+    }
 
-.letter-count {
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  background: white;
-  color: var(--text);
-  flex-shrink: 0;
-}
+    .letter-count {
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      background: white;
+      color: var(--text);
+      flex-shrink: 0;
+    }
 
-.about-popup {
-  position: fixed;
-  right: max(20px, env(safe-area-inset-right));
-  bottom: calc(max(20px, env(safe-area-inset-bottom)) + 52px);
-  width: min(380px, calc(100vw - 40px));
-  max-height: min(420px, 58vh);
-  background: white;
-  border: 1px solid var(--line);
-  z-index: 999;
-  display: none;
-  overflow: hidden;
-}
+    .about-popup {
+      position: fixed;
+      right: max(20px, env(safe-area-inset-right));
+      bottom: calc(max(20px, env(safe-area-inset-bottom)) + 52px);
+      width: min(380px, calc(100vw - 40px));
+      max-height: min(420px, 58vh);
+      background: white;
+      border: 1px solid var(--line);
+      z-index: 999;
+      display: none;
+      overflow: hidden;
+    }
 
-.about-popup.open {
-  display: block;
-}
+    .about-popup.open {
+      display: block;
+    }
 
-.about-close {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  border: 0;
-  background: transparent;
-  color: var(--text);
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
-  padding: 0;
-}
+    .about-close {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 0;
+    }
 
-.about-content {
-  padding: 36px 12px 12px 12px;
-  font-size: 16px;
-  line-height: 1.45;
-  overflow-y: auto;
-  max-height: min(420px, 58vh);
-  text-align: left;
-}
+    .about-content {
+      padding: 36px 12px 12px 12px;
+      font-size: 16px;
+      line-height: 1.45;
+      overflow-y: auto;
+      max-height: min(420px, 58vh);
+      text-align: left;
+    }
 
-@media (max-width: 900px) {
-  .archive-grid {
-    column-count: 2;
-  }
+    .about-content p {
+      margin: 0 0 12px 0;
+    }
 
-  .archive-drop-overlay {
-    width: calc(100% / 2);
-  }
+    .about-content p:last-child {
+      margin-bottom: 0;
+    }
 
-  .grid-view {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    @media (max-width: 900px) {
+      .archive-grid {
+        column-count: 2;
+      }
 
-  .answer-box {
-    font-size: 17px;
-  }
+      .archive-drop-overlay {
+        width: calc(100% / 2);
+      }
 
-  .modal-text {
-    font-size: 16px;
-  }
+      .grid-view {
+        grid-template-columns: repeat(2, 1fr);
+      }
 
-  .about-popup {
-    width: min(360px, calc(100vw - 32px));
-    right: max(16px, env(safe-area-inset-right));
-    bottom: calc(max(16px, env(safe-area-inset-bottom)) + 52px);
-  }
+      .answer-box {
+        font-size: 17px;
+      }
 
-  .about-trigger {
-    right: max(16px, env(safe-area-inset-right));
-    bottom: max(16px, env(safe-area-inset-bottom));
-    min-width: 88px;
-    height: 38px;
-    padding: 0 12px;
-    font-size: 14px;
-  }
-}
+      .modal-text {
+        font-size: 16px;
+      }
+
+      .about-popup {
+        width: min(360px, calc(100vw - 32px));
+        right: max(16px, env(safe-area-inset-right));
+        bottom: calc(max(16px, env(safe-area-inset-bottom)) + 52px);
+      }
+
+      .about-trigger {
+        right: max(16px, env(safe-area-inset-right));
+        bottom: max(16px, env(safe-area-inset-bottom));
+        min-width: 88px;
+        height: 38px;
+        padding: 0 12px;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -757,6 +772,9 @@
 
         <div class="archive-scroll" id="archiveScroll">
           <div class="archive-grid" id="archiveGrid"></div>
+          <div class="archive-actions">
+            <button class="small-button" id="loadMoreButton" type="button" style="display:none;">Load more</button>
+          </div>
         </div>
 
         <div id="archiveDropOverlay" class="archive-drop-overlay"></div>
@@ -784,15 +802,15 @@
       <div class="screen-inner" id="screenInner"></div>
     </section>
 
-<button class="about-trigger" id="aboutTrigger" aria-label="Open message">
-  <span class="letter-label">message</span>
-  <span class="letter-count" id="letterCount">1</span>
-</button>
+    <button class="about-trigger" id="aboutTrigger" aria-label="Open message">
+      <span class="letter-label">message</span>
+      <span class="letter-count" id="letterCount">1</span>
+    </button>
 
-<div class="about-popup" id="aboutPopup" aria-hidden="true">
-  <button class="about-close" id="aboutClose" aria-label="Close message">×</button>
-  <div class="about-content" id="aboutContent"></div>
-</div>
+    <div class="about-popup" id="aboutPopup" aria-hidden="true">
+      <button class="about-close" id="aboutClose" aria-label="Close message">×</button>
+      <div class="about-content" id="aboutContent"></div>
+    </div>
 
   </div>
 
@@ -805,7 +823,9 @@
       getDocs,
       query,
       orderBy,
-      serverTimestamp
+      serverTimestamp,
+      limit,
+      startAfter
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import {
       getStorage,
@@ -827,6 +847,8 @@
     const db = getFirestore(app);
     const storage = getStorage(app);
 
+    const PAGE_SIZE = 24;
+
     const screens = {
       home: document.getElementById('home'),
       submit: document.getElementById('submit'),
@@ -840,6 +862,7 @@
     const archiveModal = document.getElementById('archiveModal');
     const modalInner = document.getElementById('modalInner');
     const closeModalButton = document.getElementById('closeModalButton');
+    const loadMoreButton = document.getElementById('loadMoreButton');
 
     const form = document.getElementById('submissionForm');
     const photoInput = document.getElementById('photoInput');
@@ -855,11 +878,11 @@
     const togglePlayBtn = document.getElementById('togglePlay');
     const nextBtn = document.getElementById('nextBtn');
 
-const aboutTrigger = document.getElementById('aboutTrigger');
-const aboutPopup = document.getElementById('aboutPopup');
-const aboutClose = document.getElementById('aboutClose');
-const aboutContent = document.getElementById('aboutContent');
-const letterCount = document.getElementById('letterCount');
+    const aboutTrigger = document.getElementById('aboutTrigger');
+    const aboutPopup = document.getElementById('aboutPopup');
+    const aboutClose = document.getElementById('aboutClose');
+    const aboutContent = document.getElementById('aboutContent');
+    const letterCount = document.getElementById('letterCount');
 
     let currentLanguage = 'EN';
     let selectedEntry = null;
@@ -870,6 +893,10 @@ const letterCount = document.getElementById('letterCount');
     let isPlaying = true;
     let latestUploadedId = null;
     let latestUploadedImageUrl = null;
+
+    let lastVisibleDoc = null;
+    let hasMoreEntries = true;
+    let isLoadingMore = false;
 
     const copy = {
       EN: {
@@ -897,6 +924,8 @@ const letterCount = document.getElementById('letterCount');
         needImage: 'Please upload an image.',
         needConsent: 'Please confirm exhibition participation.',
         uploadFailed: 'Upload failed. Please try again.',
+        loadMore: 'Load more',
+        loadingMore: 'Loading...',
         aboutHtml: `
           <p>Have you ever thought about where water comes from?</p>
 
@@ -941,6 +970,8 @@ const letterCount = document.getElementById('letterCount');
         needImage: 'Bitte lade ein Bild hoch.',
         needConsent: 'Bitte bestätige die Teilnahme an der Ausstellung.',
         uploadFailed: 'Upload fehlgeschlagen. Bitte versuche es erneut.',
+        loadMore: 'Mehr laden',
+        loadingMore: 'Lädt...',
         aboutHtml: `
           <p>Hast du jemals darüber nachgedacht, woher Wasser kommt?</p>
 
@@ -1003,34 +1034,139 @@ const letterCount = document.getElementById('letterCount');
       );
     }
 
-    async function uploadFileToFirebase(file) {
+    async function resizeImageFile(file, maxSize = 900, quality = 0.82) {
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      const img = await new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = dataUrl;
+      });
+
+      const { width, height } = img;
+
+      let targetWidth = width;
+      let targetHeight = height;
+
+      if (width > height) {
+        if (width > maxSize) {
+          targetWidth = maxSize;
+          targetHeight = Math.round((height / width) * maxSize);
+        }
+      } else {
+        if (height > maxSize) {
+          targetHeight = maxSize;
+          targetWidth = Math.round((width / height) * maxSize);
+        }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+      const blob = await new Promise((resolve) => {
+        canvas.toBlob(resolve, 'image/jpeg', quality);
+      });
+
+      return new File(
+        [blob],
+        file.name.replace(/\.[^.]+$/, '') + '-thumb.jpg',
+        { type: 'image/jpeg' }
+      );
+    }
+
+    async function uploadFileToFirebase(file, folder = 'waters') {
       const safeName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-      const storageRef = ref(storage, `waters/${safeName}`);
+      const storageRef = ref(storage, `${folder}/${safeName}`);
       await uploadBytes(storageRef, file, {
         contentType: file.type || 'image/jpeg'
       });
       return await getDownloadURL(storageRef);
     }
 
-    async function loadEntries() {
+    function updateLoadMoreButton() {
+      loadMoreButton.textContent = copy[currentLanguage][isLoadingMore ? 'loadingMore' : 'loadMore'];
+      loadMoreButton.style.display = hasMoreEntries && entries.length ? 'inline-flex' : 'none';
+      loadMoreButton.disabled = isLoadingMore;
+    }
+
+    async function loadEntries(reset = false) {
       try {
-        const q = query(collection(db, 'waters'), orderBy('createdAt', 'desc'));
+        if (reset) {
+          entries = [];
+          lastVisibleDoc = null;
+          hasMoreEntries = true;
+        }
+
+        if (!hasMoreEntries && !reset) {
+          updateLoadMoreButton();
+          return;
+        }
+
+        const queryParts = [
+          collection(db, 'waters'),
+          orderBy('createdAt', 'desc')
+        ];
+
+        if (!reset && lastVisibleDoc) {
+          queryParts.push(startAfter(lastVisibleDoc));
+        }
+
+        queryParts.push(limit(PAGE_SIZE));
+
+        const q = query(...queryParts);
         const snapshot = await getDocs(q);
-        entries = snapshot.docs.map(doc => ({
+
+        if (reset) {
+          entries = [];
+        }
+
+        const newEntries = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
+
+        entries = [...entries, ...newEntries];
+        lastVisibleDoc = snapshot.docs.length ? snapshot.docs[snapshot.docs.length - 1] : lastVisibleDoc;
+        hasMoreEntries = snapshot.docs.length === PAGE_SIZE;
       } catch (error) {
         console.warn('Ordered load failed, trying fallback:', error);
-        const snapshot = await getDocs(collection(db, 'waters'));
-        entries = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
+
+        if (reset) {
+          const snapshot = await getDocs(collection(db, 'waters'));
+          entries = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          hasMoreEntries = false;
+          lastVisibleDoc = null;
+        }
       }
 
       renderArchive();
       renderScreen();
+      updateLoadMoreButton();
+    }
+
+    async function handleLoadMore() {
+      if (isLoadingMore || !hasMoreEntries) return;
+
+      isLoadingMore = true;
+      updateLoadMoreButton();
+
+      await loadEntries(false);
+
+      isLoadingMore = false;
+      updateLoadMoreButton();
     }
 
     function showScreen(name) {
@@ -1044,7 +1180,7 @@ const letterCount = document.getElementById('letterCount');
       }
 
       if (name === 'archive' || name === 'screen') {
-        loadEntries();
+        loadEntries(true);
       }
     }
 
@@ -1083,6 +1219,7 @@ const letterCount = document.getElementById('letterCount');
 
       renderArchive();
       renderScreen();
+      updateLoadMoreButton();
 
       if (archiveModal.classList.contains('active') && selectedEntry) {
         openArchiveModal(selectedEntry);
@@ -1101,15 +1238,15 @@ const letterCount = document.getElementById('letterCount');
       aboutPopup.setAttribute('aria-hidden', 'true');
     }
 
- function toggleAbout() {
-  aboutPopup.classList.toggle('open');
-  const isOpen = aboutPopup.classList.contains('open');
-  aboutPopup.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    function toggleAbout() {
+      aboutPopup.classList.toggle('open');
+      const isOpen = aboutPopup.classList.contains('open');
+      aboutPopup.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
 
-  if (isOpen) {
-    letterCount.textContent = '0';
-  }
-}
+      if (isOpen) {
+        letterCount.textContent = '0';
+      }
+    }
 
     aboutTrigger.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1145,14 +1282,15 @@ const letterCount = document.getElementById('letterCount');
       }
 
       entries.forEach(entry => {
-        if (!entry.imageUrl) return;
+        const thumbUrl = entry.imageUrlThumb || entry.imageUrlOriginal || entry.imageUrl;
+        if (!thumbUrl) return;
 
         const button = document.createElement('button');
         button.className = 'archive-card';
         button.type = 'button';
         button.innerHTML = `
           <div class="archive-thumb">
-            <img src="${entry.imageUrl}" alt="Water submission" loading="lazy" />
+            <img src="${thumbUrl}" alt="Water submission" loading="lazy" />
           </div>
         `;
         button.addEventListener('click', () => openArchiveModal(entry));
@@ -1186,9 +1324,11 @@ const letterCount = document.getElementById('letterCount');
       selectedEntry = entry;
       archiveModal.classList.add('active');
 
+      const modalImageUrl = entry.imageUrlOriginal || entry.imageUrlThumb || entry.imageUrl;
+
       modalInner.innerHTML = `
         <div class="modal-image">
-          <img src="${entry.imageUrl}" alt="Water submission" />
+          <img src="${modalImageUrl}" alt="Water submission" />
         </div>
         <div class="modal-text">
           <p><strong>${copy[currentLanguage].modalName}</strong> ${escapeHTML(entry.name || 'Anonymous')}</p>
@@ -1218,16 +1358,19 @@ const letterCount = document.getElementById('letterCount');
       }
 
       if (showGrid) {
-        const gridItems = entries.slice(0, 6).map(entry => `
-          <div class="card">
-            <div class="card-image">
-              <img src="${entry.imageUrl}" alt="Water submission" />
+        const gridItems = entries.slice(0, 6).map(entry => {
+          const screenImageUrl = entry.imageUrlOriginal || entry.imageUrlThumb || entry.imageUrl;
+          return `
+            <div class="card">
+              <div class="card-image">
+                <img src="${screenImageUrl}" alt="Water submission" />
+              </div>
+              <div class="card-text">
+                <p>${escapeHTML(entry.name || 'Anonymous')}</p>
+              </div>
             </div>
-            <div class="card-text">
-              <p>${escapeHTML(entry.name || 'Anonymous')}</p>
-            </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
 
         screenInner.innerHTML = `<div class="grid-view">${gridItems}</div>`;
         screenStatus.textContent = 'grid';
@@ -1237,10 +1380,12 @@ const letterCount = document.getElementById('letterCount');
       const entry = entries[screenIndex];
       if (!entry) return;
 
+      const screenImageUrl = entry.imageUrlOriginal || entry.imageUrlThumb || entry.imageUrl;
+
       screenInner.innerHTML = `
         <div class="single-view">
           <div class="image-wrap">
-            <img src="${entry.imageUrl}" alt="Water submission" />
+            <img src="${screenImageUrl}" alt="Water submission" />
           </div>
           <div class="answer-box">
             <p><strong>${copy[currentLanguage].modalName}</strong> ${escapeHTML(entry.name || 'Anonymous')}</p>
@@ -1293,6 +1438,8 @@ const letterCount = document.getElementById('letterCount');
       nextScreenFrame();
     });
 
+    loadMoreButton.addEventListener('click', handleLoadMore);
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       submitSuccess.textContent = '';
@@ -1311,28 +1458,32 @@ const letterCount = document.getElementById('letterCount');
       submitButton.textContent = copy[currentLanguage].uploading;
 
       try {
-        const file = await convertHeicIfNeeded(photoInput.files[0]);
-        const imageUrl = await uploadFileToFirebase(file);
+        const originalFile = await convertHeicIfNeeded(photoInput.files[0]);
+        const thumbFile = await resizeImageFile(originalFile, 900, 0.82);
+
+        const imageUrlOriginal = await uploadFileToFirebase(originalFile, 'waters/original');
+        const imageUrlThumb = await uploadFileToFirebase(thumbFile, 'waters/thumb');
 
         const docRef = await addDoc(collection(db, 'waters'), {
           name: nameInput.value.trim() || 'Anonymous',
           found: foundInput.value.trim() || 'Unknown',
           guess: guessInput.value.trim() || 'Unknown',
           consent: true,
-          imageUrl,
+          imageUrlOriginal,
+          imageUrlThumb,
           originalFileName: photoInput.files[0].name,
-          storedFileType: file.type,
+          storedFileType: originalFile.type,
           createdAt: serverTimestamp()
         });
 
         latestUploadedId = docRef.id;
-        latestUploadedImageUrl = imageUrl;
+        latestUploadedImageUrl = imageUrlThumb;
 
         form.reset();
         updateSubmitState();
         submitSuccess.textContent = copy[currentLanguage].success;
 
-        await loadEntries();
+        await loadEntries(true);
         showScreen('archive');
       } catch (error) {
         console.error('Upload failed:', error);
@@ -1379,7 +1530,7 @@ const letterCount = document.getElementById('letterCount');
     });
 
     applyLanguage();
-    loadEntries();
+    loadEntries(true);
   </script>
 </body>
 </html>
