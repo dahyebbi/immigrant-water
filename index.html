@@ -29,12 +29,13 @@
     }
 
     .app {
-      width: 100vw;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-      background: var(--bg);
-    }
+  width: 100vw;
+  min-height: 100vh;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
 
     .screen {
       position: absolute;
@@ -544,24 +545,27 @@
     }
 
     /* LETTER POPUP */
-  .about-trigger {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  min-width: 72px;
-  height: 32px;
-  padding: 0 10px;
+ .about-trigger {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  min-width: 92px;
+  height: 40px;
+  padding: 0 14px;
   border: 1px solid var(--line);
   background: white;
   color: var(--text);
   cursor: pointer;
-  z-index: 6;
+  z-index: 999;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  font-size: 14px;
+  gap: 8px;
+  font-size: 15px;
   line-height: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
 }
 
 .letter-label {
@@ -569,99 +573,94 @@
 }
 
 .letter-count {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border: 1px solid var(--line);
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  line-height: 1;
+  font-size: 12px;
   background: white;
   color: var(--text);
   flex-shrink: 0;
 }
 
-    .about-popup {
-      position: absolute;
-      right: 20px;
-      bottom: 64px;
-      width: min(380px, calc(100vw - 40px));
-      max-height: min(420px, 58vh);
-      background: white;
-      border: 1px solid var(--line);
-      z-index: 6;
-      display: none;
-      overflow: hidden;
-    }
+.about-popup {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: calc(max(20px, env(safe-area-inset-bottom)) + 52px);
+  width: min(380px, calc(100vw - 40px));
+  max-height: min(420px, 58vh);
+  background: white;
+  border: 1px solid var(--line);
+  z-index: 999;
+  display: none;
+  overflow: hidden;
+}
 
-    .about-popup.open {
-      display: block;
-    }
+.about-popup.open {
+  display: block;
+}
 
-    .about-close {
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      border: 0;
-      background: transparent;
-      color: var(--text);
-      cursor: pointer;
-      font-size: 18px;
-      line-height: 1;
-      padding: 0;
-    }
+.about-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+}
 
-    .about-content {
-      padding: 36px 12px 12px 12px;
-      font-size: 16px;
-      line-height: 1.45;
-      overflow-y: auto;
-      max-height: min(420px, 58vh);
-      text-align: left;
-    }
+.about-content {
+  padding: 36px 12px 12px 12px;
+  font-size: 16px;
+  line-height: 1.45;
+  overflow-y: auto;
+  max-height: min(420px, 58vh);
+  text-align: left;
+}
 
-    .about-content p {
-      margin: 0 0 12px 0;
-    }
+@media (max-width: 900px) {
+  .archive-grid {
+    column-count: 2;
+  }
 
-    .about-content p:last-child {
-      margin-bottom: 0;
-    }
+  .archive-drop-overlay {
+    width: calc(100% / 2);
+  }
 
-    @media (max-width: 900px) {
-      .archive-grid {
-        column-count: 2;
-      }
+  .grid-view {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-      .archive-drop-overlay {
-        width: calc(100% / 2);
-      }
+  .answer-box {
+    font-size: 17px;
+  }
 
-      .grid-view {
-        grid-template-columns: repeat(2, 1fr);
-      }
+  .modal-text {
+    font-size: 16px;
+  }
 
-      .answer-box {
-        font-size: 17px;
-      }
+  .about-popup {
+    width: min(360px, calc(100vw - 32px));
+    right: max(16px, env(safe-area-inset-right));
+    bottom: calc(max(16px, env(safe-area-inset-bottom)) + 52px);
+  }
 
-      .modal-text {
-        font-size: 16px;
-      }
-
-      .about-popup {
-        width: min(360px, calc(100vw - 32px));
-        right: 16px;
-        bottom: 60px;
-      }
-
-      .about-trigger {
-        right: 16px;
-        bottom: 16px;
-      }
-    }
+  .about-trigger {
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    min-width: 88px;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+}
   </style>
 </head>
 <body>
@@ -785,15 +784,15 @@
       <div class="screen-inner" id="screenInner"></div>
     </section>
 
-<button class="about-trigger" id="aboutTrigger" aria-label="Open letter">
-  <span class="letter-label">letter</span>
+<button class="about-trigger" id="aboutTrigger" aria-label="Open message">
+  <span class="letter-label">message</span>
   <span class="letter-count" id="letterCount">1</span>
 </button>
 
-    <div class="about-popup" id="aboutPopup" aria-hidden="true">
-      <button class="about-close" id="aboutClose" aria-label="Close letter">×</button>
-      <div class="about-content" id="aboutContent"></div>
-    </div>
+<div class="about-popup" id="aboutPopup" aria-hidden="true">
+  <button class="about-close" id="aboutClose" aria-label="Close message">×</button>
+  <div class="about-content" id="aboutContent"></div>
+</div>
 
   </div>
 
