@@ -28,14 +28,15 @@
       overflow: hidden;
     }
 
-    .app {
-      width: 100vw;
-      min-height: 100vh;
-      height: 100dvh;
-      position: relative;
-      overflow: hidden;
-      background: var(--bg);
-    }
+   .app {
+  width: 100vw;
+  min-height: 100vh;
+  min-height: 100svh;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
 
     .screen {
       position: absolute;
@@ -45,6 +46,12 @@
       overflow: hidden;
       min-height: 0;
     }
+    #submit,
+#archive {
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
     .screen.active {
       display: flex;
