@@ -182,9 +182,9 @@
 .animation-placeholder video {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  display: block;
 }
-
     .home-buttons {
       display: flex;
       flex-direction: column;
@@ -710,7 +710,7 @@ background: white;
       <div class="home-content">
         <h1 class="title">Immigrant Water</h1>
 <div class="animation-placeholder">
-  <video id="rainVideo" autoplay muted loop playsinline webkit-playsinline>
+<video id="rainVideo" autoplay muted loop playsinline preload="auto">
     <source src="rain1.mp4" type="video/mp4">
   </video>
 </div>
@@ -1546,11 +1546,24 @@ background: white;
           : 'archive-drop-overlay';
       }
     });
-const videos = ["rain1.mp4", "rain2.mp4"];
-const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+const rainVideo = document.getElementById("rainVideo");
 
-document.querySelector("#rainVideo source").src = randomVideo;
-document.getElementById("rainVideo").load();
+window.addEventListener("load", function () {
+  const videos = ["rain1.mp4", "rain2.mp4"];
+  const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+
+  rainVideo.src = randomVideo;
+  rainVideo.muted = true;
+  rainVideo.playsInline = true;
+
+  rainVideo.load();
+
+  const playPromise = rainVideo.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(function(){});
+  }
+});
+
     applyLanguage();
     loadEntries(true);
   </script>
